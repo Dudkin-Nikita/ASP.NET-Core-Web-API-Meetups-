@@ -2,6 +2,7 @@
 using Meetups.Domain.Entities;
 using Meetups.Models;
 using Meetups.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace Meetups.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User")]
     public class MeetupController : ControllerBase
     {
         private readonly DataManager dataManager;
@@ -17,10 +19,6 @@ namespace Meetups.Controllers
         {
             this.dataManager = dataManager;
         }
-
-        public List<Meetup> meetups = new List<Meetup> { new Meetup { Id = 0, Name = ".Net", Description = "About C#" },
-        new Meetup {Id = 1, Name = "Java"} };
-
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetMeetupDto>>>> Get()
